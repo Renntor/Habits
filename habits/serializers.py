@@ -8,9 +8,10 @@ class HabitSerializer(serializers.ModelSerializer):
         if (data.get('binding_habit', None) and data.get('reward', None)) is not None:
             raise serializers.ValidationError(
                 "only one of the fields 'binding_habit' or 'reward' can be used")
-        elif data.get('binding_habit', None).pleasant_habit is False:
-            raise serializers.ValidationError(
-                "binding_habit must have the True attribute of a pleasant_habit")
+        elif data.get('binding_habit', None) is not None:
+            if data.get('binding_habit', None).pleasant_habit is False:
+                raise serializers.ValidationError(
+                    "binding_habit must have the True attribute of a pleasant_habit")
         elif (data.get('pleasant_habit', None) is True and (
                 data.get('binding_habit', None) and data.get('reward', None))
               is not None):
@@ -20,7 +21,7 @@ class HabitSerializer(serializers.ModelSerializer):
             return data
 
 
-class Meta:
-    model = Habit
-    fields = ('place', 'time', 'action', 'pleasant_habit', 'binding_habit', 'period', 'reward', 'execution_time',
-              'is_publish')
+    class Meta:
+        model = Habit
+        fields = ('place', 'time', 'action', 'pleasant_habit', 'binding_habit', 'period', 'reward', 'execution_time',
+                  'is_publish')
