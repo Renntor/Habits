@@ -1,6 +1,6 @@
 from django.db import models
 from config import settings
-from habits.validators import TimeValidator
+from habits.validators import ExecutionTimeValidator, PeriodValidator
 
 NULLABLE = {'null': True, 'blank': True}
 
@@ -9,11 +9,11 @@ class Habit(models.Model):
     place = models.CharField(max_length=100, verbose_name='место')
     time = models.TimeField(verbose_name='время')
     action = models.CharField(max_length=100, verbose_name='действие')
-    pleasant_habit = models.CharField(max_length=100, **NULLABLE, verbose_name='приятная привычка')
+    pleasant_habit = models.BooleanField(default=False, verbose_name='признак приятной привычки')
     binding_habit = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE, verbose_name='связная привычка')
-    period = models.PositiveIntegerField(default=1, verbose_name='периодичность')
+    period = models.PositiveIntegerField(default=1, verbose_name='периодичность', validators=[PeriodValidator()])
     reward = models.CharField(max_length=100, verbose_name='вознаграждение')
-    execution_time = models.TimeField(verbose_name='время выполнения', validators=[TimeValidator()])
+    execution_time = models.TimeField(verbose_name='время выполнения', validators=[ExecutionTimeValidator()])
     is_publish = models.BooleanField(default=False, verbose_name='признак публичности')
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='владелец')
