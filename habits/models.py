@@ -1,5 +1,6 @@
 from django.db import models
 from config import settings
+from habits.validators import TimeValidator
 
 NULLABLE = {'null': True, 'blank': True}
 
@@ -12,7 +13,7 @@ class Habit(models.Model):
     binding_habit = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE, verbose_name='связная привычка')
     period = models.PositiveIntegerField(default=1, verbose_name='периодичность')
     reward = models.CharField(max_length=100, verbose_name='вознаграждение')
-    execution_time = models.TimeField(verbose_name='время выполнения')
+    execution_time = models.TimeField(verbose_name='время выполнения', validators=[TimeValidator()])
     is_publish = models.BooleanField(default=False, verbose_name='признак публичности')
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='владелец')
