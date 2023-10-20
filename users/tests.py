@@ -8,19 +8,20 @@ class UserTestCase(APITestCase):
     def setUp(self) -> None:
         self.client = APIClient()
         self.user = User.objects.create(
-            id=1,
+            id=102,
             email='test@test.test',
-            passwrod='test',
-            is_superuser=True
+            password='test',
+            is_superuser=True,
+            is_staff=True
         )
-        self.user.force_authenticate(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
     def test_destroy_user(self):
         """
         Тестирование удаление пользователя
         """
         response = self.client.delete(
-            '/user/1/'
+            '/user/delete/102/'
         )
         self.assertEquals(
             response.status_code,
@@ -33,9 +34,9 @@ class UserTestCase(APITestCase):
         """
         response = self.client.post(
             '/user/create/',
-            id=2,
-            email='email@email.email',
-            password='test'
+            {'id': 52,
+             'email': 'email@email.email',
+             'password': 'test'}
         )
         self.assertEquals(
             response.status_code,
@@ -52,17 +53,17 @@ class UserTestCase(APITestCase):
         Тестирование обновление пользователя
         """
         response = self.client.put(
-            '/user/update/1/',
-            {'phone': '11122333'}
+            '/user/update/102/',
+            {'email': 'word@admin.admin'}
         )
 
         self.assertEquals(
             response.status_code,
-            status.HTTP_201_CREATED
+            status.HTTP_200_OK
         )
         self.assertEquals(
-            response.data['phone'],
-            '11122333'
+            response.data['email'],
+            'word@admin.admin'
         )
 
     def test_get_user(self):
@@ -72,10 +73,10 @@ class UserTestCase(APITestCase):
 
         self.assertEquals(
             response.json(),
-            {
+            [{
                 'email': 'test@test.test',
                 'phone': None,
-                'first_name': None,
-                'last_name': None
-            }
+                'first_name': '',
+                'last_name': ''
+            }]
         )

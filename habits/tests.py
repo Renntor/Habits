@@ -11,12 +11,12 @@ class HabitsTestCase(APITestCase):
         self.user = User.objects.create(
             id=1,
             email='test@test.test',
-            passwrod='test'
+            password='test'
         )
-        self.user.force_authenticate(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
         self.habit = Habit.objects.create(
-            id=1,
+            id=103,
             place="work",
             time="13:00:00",
             action="smoking",
@@ -34,7 +34,7 @@ class HabitsTestCase(APITestCase):
         Тестирование удаление привычки
         """
         response = self.client.delete(
-            '/habit/1/'
+            '/habit/103/'
         )
         self.assertEquals(
             response.status_code,
@@ -47,16 +47,16 @@ class HabitsTestCase(APITestCase):
         """
         response = self.client.post(
             '/habit/',
-            place="home",
-            time="19:00:00",
-            action="sleep",
-            pleasant_habit=True,
-            binding_habit=None,
-            period=2,
-            reward="сон",
-            execution_time="00:00:30",
-            is_publish=True,
-            owner=self.user
+            {'place': "home",
+             'time': "19:00:00",
+             'action': "sleep",
+             'pleasant_habit': True,
+             'binding_habit': '',
+             'period': 2,
+             'reward': "сон",
+             'execution_time': "00:00:30",
+             'is_publish': True,
+             'owner': self.user}
         )
 
         self.assertEquals(
@@ -71,8 +71,16 @@ class HabitsTestCase(APITestCase):
 
     def test_update_habit(self):
         response = self.client.put(
-            '/habit/1/',
-            {'is_publish': False}
+            '/habit/103/',
+            {'place': "work",
+                'time': "13:00:00",
+                'action': "smoking",
+                'pleasant_habit': True,
+                'binding_habit': '',
+                'period': 1,
+                'reward': "сон",
+                'execution_time': "00:01:00",
+                'is_publish': True,}
         )
 
         self.assertEquals(
@@ -84,10 +92,9 @@ class HabitsTestCase(APITestCase):
         response = self.client.get(
             '/habit/'
         )
-
         self.assertEquals(
             response.json(),
-            {
+            [{
                 'place': "work",
                 'time': "13:00:00",
                 'action': "smoking",
@@ -97,5 +104,5 @@ class HabitsTestCase(APITestCase):
                 'reward': "сон",
                 'execution_time': "00:01:00",
                 'is_publish': True,
-            }
+            }]
         )
