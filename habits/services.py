@@ -1,8 +1,11 @@
 import os
+from datetime import datetime
+
 import telebot
 from telebot import types
 from users.models import User
-
+from telegram.models import Telegram
+from habits.models import Habit
 
 def telegram_bot():
     telegram_token = os.getenv('TELEGRAM_BOT_API')
@@ -14,18 +17,26 @@ def telegram_bot():
         bot.send_message(message.chat.id, 'Введите свой Email:')
         bot.register_next_step_handler_by_chat_id(message.chat.id, get_email)
 
-        # user = User.objects.filetr(email=).fisrst()
-
     def get_email(message: types.Message):
+        """
+        Получение email
+        """
         user = User.objects.filter(email=message.text).first()
         bot.send_message(message.chat.id, 'Введите свой пароль:')
         bot.register_next_step_handler_by_chat_id(message.chat.id, get_password, user)
 
     def get_password(message: types.Message, args):
+        """
+        Получение пароля и проверка на существование пользователя
+        """
         user = args
         check_password = user.check_password(message.text)
         if check_password:
-            pass
-        bot.send_message(message.chat.id, f'{check_password}')
+            user.telegram = Telegram.objects.create(chat_id=message.chat.id)
+            user.save()
+            bot.send_message(message.chat.id, 'Авторизация прошла успешно!\nБот активирован')
+            user.telegram.is_active = True
+        else:
+            bot.send_message(message.chat.id, 'Неверный логин или пароль')
 
     bot.polling(none_stop=True)

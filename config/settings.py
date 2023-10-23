@@ -164,8 +164,8 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
-    'task-name': {
-        'task': 'app.tasks.func',
-        'schedule': timedelta(days=1),
+    'telegram_send_message': {
+        'task': 'habits.tasks.send_message_tegram',
+        'schedule': timedelta(seconds=10),
     },
 }
