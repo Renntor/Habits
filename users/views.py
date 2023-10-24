@@ -15,19 +15,11 @@ class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializers
 
 
-class UserDestroyAPIView(generics.DestroyAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAdminUser]
-    serializer_class = UserSerializers
-
-
-class UserRetrieveAPIView(generics.RetrieveAPIView):
+class UserAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsOwner]
     serializer_class = UserSerializers
 
-
-class UserUpdateAPIView(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsOwner]
-    serializer_class = UserSerializers
+    def delete(self, request, *args, **kwargs):
+        self.permission_classes = [IsAdminUser]
+        return self.destroy(request, *args, **kwargs)

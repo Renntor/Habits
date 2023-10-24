@@ -6,6 +6,9 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class Habit(models.Model):
+    """
+    Привычка
+    """
     place = models.CharField(max_length=100, verbose_name='место')
     time = models.TimeField(verbose_name='время')
     action = models.CharField(max_length=100, verbose_name='действие')

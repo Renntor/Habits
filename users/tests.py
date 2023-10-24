@@ -21,7 +21,7 @@ class UserTestCase(APITestCase):
         Тестирование удаление пользователя
         """
         response = self.client.delete(
-            '/user/delete/102/'
+            '/user/user/102/'
         )
         self.assertEquals(
             response.status_code,
@@ -53,7 +53,7 @@ class UserTestCase(APITestCase):
         Тестирование обновление пользователя
         """
         response = self.client.put(
-            '/user/update/102/',
+            '/user/user/102/',
             {'email': 'word@admin.admin'}
         )
 
