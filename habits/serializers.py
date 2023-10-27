@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from habits.models import Habit
+from habits.validators import ExecutionTimeValidator, PeriodValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -25,3 +26,4 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habit
         fields = ('place', 'time', 'action', 'pleasant_habit', 'binding_habit', 'period', 'reward', 'execution_time',
                   'is_publish')
+        validators = [ExecutionTimeValidator(field='execution_time'), PeriodValidator(field='period')]
