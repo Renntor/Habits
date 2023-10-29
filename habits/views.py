@@ -22,5 +22,7 @@ class HabitViewSet(viewsets.ModelViewSet):
         habit_owner = Habit.objects.filter(owner=self.request.user)
         habit_true = Habit.objects.filter(is_publish=True)
         habit_filter = habit_true | habit_owner
-        serializer = HabitSerializer(habit_filter, many=True)
-        return Response(serializer.data)
+        paginator = MyPagination()
+        result_page = paginator.paginate_queryset(habit_filter, request)
+        serializer = HabitSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
