@@ -52,9 +52,9 @@ class UserTestCase(APITestCase):
         """
         Тестирование обновление пользователя
         """
-        response = self.client.put(
+        response = self.client.patch(
             '/user/user/102/',
-            {'email': 'word@admin.admin'}
+            {'last_name': 'Semenov'}
         )
 
         self.assertEquals(
@@ -62,8 +62,8 @@ class UserTestCase(APITestCase):
             status.HTTP_200_OK
         )
         self.assertEquals(
-            response.data['email'],
-            'word@admin.admin'
+            response.data['last_name'],
+            'Semenov'
         )
 
     def test_get_user(self):
