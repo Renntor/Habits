@@ -1,11 +1,9 @@
 import os
-from datetime import datetime
-
 import telebot
 from telebot import types
 from users.models import User
 from telegram.models import Telegram
-from habits.models import Habit
+
 
 def telegram_bot():
     telegram_token = os.getenv('TELEGRAM_BOT_API')

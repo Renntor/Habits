@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from habits.models import Habit
 from rest_framework import viewsets
 from habits.pagination import MyPagination

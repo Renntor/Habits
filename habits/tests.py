@@ -78,7 +78,7 @@ class HabitsTestCase(APITestCase):
                 'period': 1,
                 'reward': "сон",
                 'execution_time': "00:01:00",
-                'is_publish': True,}
+                'is_publish': True}
         )
 
         self.assertEquals(

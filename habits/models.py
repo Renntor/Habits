@@ -1,6 +1,6 @@
 from django.db import models
 from config import settings
-from habits.validators import ExecutionTimeValidator, PeriodValidator
+
 
 NULLABLE = {'null': True, 'blank': True}
 

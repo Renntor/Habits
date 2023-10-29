@@ -5,7 +5,6 @@ from users.permissions import IsOwner
 from users.serializers import UserSerializers
 
 
-
 class UserAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
@@ -21,7 +20,6 @@ class UserListAPIView(generics.ListAPIView):
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializers
     permission_classes = [AllowAny]
-
 
 
 class UserAPIView(generics.RetrieveUpdateDestroyAPIView):

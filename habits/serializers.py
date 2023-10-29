@@ -16,13 +16,11 @@ class HabitSerializer(serializers.ModelSerializer):
                 "pleasant_habit can't have reward or binding_habit")
         elif data.get('binding_habit', None) is not None:
             if data.get('binding_habit', None).pleasant_habit is False:
-                raise serializers.ValidationError(
-                        "binding_habit must have the True attribute of a pleasant_habit")
+                raise serializers.ValidationError("binding_habit must have the True attribute of a pleasant_habit")
             else:
                 return data
         else:
             return data
-
 
     class Meta:
         model = Habit
