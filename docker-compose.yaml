@@ -22,7 +22,6 @@ services:
     tty: true
     command: >
       sh -c "python manage.py migrate && 
-      python manage.py create_superusers && 
       python manage.py runserver 0.0.0.0:8000"
 
     ports:
@@ -35,6 +34,14 @@ services:
     build: .
     tty: true
     command: celery -A config worker -l INFO
+    depends_on:
+      - redis
+      - app
+
+  celery_beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO
     depends_on:
       - redis
       - app
