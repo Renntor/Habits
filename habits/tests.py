@@ -23,7 +23,7 @@ class HabitsTestCase(APITestCase):
             pleasant_habit=True,
             binding_habit=None,
             period=1,
-            reward="сон",
+            reward=None,
             execution_time="00:01:00",
             is_publish=True,
             owner=self.user
@@ -51,9 +51,7 @@ class HabitsTestCase(APITestCase):
              'time': "19:00:00",
              'action': "sleep",
              'pleasant_habit': True,
-             'binding_habit': '',
              'period': 2,
-             'reward': "сон",
              'execution_time': "00:00:30",
              'is_publish': True,
              'owner': self.user}
@@ -75,12 +73,12 @@ class HabitsTestCase(APITestCase):
             {'place': "work",
                 'time': "13:00:00",
                 'action': "smoking",
-                'pleasant_habit': True,
+                'pleasant_habit': False,
                 'binding_habit': '',
                 'period': 1,
                 'reward': "сон",
                 'execution_time': "00:01:00",
-                'is_publish': True,}
+                'is_publish': True}
         )
 
         self.assertEquals(
@@ -94,15 +92,15 @@ class HabitsTestCase(APITestCase):
         )
         self.assertEquals(
             response.json(),
-            [{
+            {'count': 1, 'next': None, 'previous': None, 'results': [{
                 'place': "work",
                 'time': "13:00:00",
                 'action': "smoking",
                 'pleasant_habit': True,
                 'binding_habit': None,
                 'period': 1,
-                'reward': "сон",
+                'reward': None,
                 'execution_time': "00:01:00",
                 'is_publish': True,
-            }]
+            }]}
         )

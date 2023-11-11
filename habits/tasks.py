@@ -4,6 +4,7 @@ import telebot
 from celery import shared_task
 from habits.models import Habit
 
+
 @shared_task()
 def send_message_tegram():
     telegram_token = os.getenv('TELEGRAM_BOT_API')
