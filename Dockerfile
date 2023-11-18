@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY poetry.lock pyproject.toml .
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+
+RUN chmod +x /docker-entrypoint.sh
+
 RUN python -m pip install --no-cache-dir poetry==1.4.2 \
     && poetry config virtualenvs.create false \
     && poetry install --without dev,test --no-interaction --no-ansi \
@@ -11,4 +15,4 @@ RUN python -m pip install --no-cache-dir poetry==1.4.2 \
 
 COPY . .
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
